@@ -1,0 +1,78 @@
+package com.example.rock_paper_scissors;
+
+import java.io.File; 
+
+import android.database.sqlite.SQLiteDatabase; 
+import android.database.sqlite.SQLiteException;
+import android.os.Environment;
+import android.util.Log; 
+ 
+public class DatabaseCreation  
+{ 
+	 private static final String TAG                  = "DatabaseHelper";
+
+	  public static final String  DATABASE_FILE_PATH      = Environment.getExternalStorageDirectory().toString();
+	  public static final String  DATABASE_NAME      = "mydb"; 
+	  public static final String  TRACKS_TABLE        = "tracks";
+	  public static final String  TRACK_INFO_TABLE        = "track_info";
+
+	  private static final String TRACKS_TABLE_CREATE     = "create table "
+	           + TRACKS_TABLE
+	           + " (_id integer primary key autoincrement, title text not null, description text null, created_at date not null);";
+
+	  private static final String TRACK_INFO_TABLE_CREATE = "create table " 
+	           + TRACK_INFO_TABLE 
+	           + " (_id integer primary key autoincrement, track_id integer not null, latitude real not null, longitude real not null, altitude real not null, created_at date not null);";
+
+	private SQLiteDatabase      database;
+
+	public DatabaseCreation() 
+	{  
+		System.out.println("inside");
+	    try
+	    {
+	        database = SQLiteDatabase.openDatabase(DATABASE_FILE_PATH
+	            + File.separator + DATABASE_NAME, null,SQLiteDatabase.OPEN_READWRITE);
+	    }
+	    catch (SQLiteException ex)
+	    {
+	        Log.e(TAG, "error -- " + ex.getMessage(), ex);
+	        // error means tables does not exits
+	        createTables();
+	    }
+	    finally
+	    {
+	        Log.d(TAG, "error at dbutil");
+	    }
+	}
+
+	private void createTables()
+	{
+	    database.execSQL(TRACKS_TABLE_CREATE);
+	    database.execSQL(TRACK_INFO_TABLE_CREATE);
+	}
+
+	public void close()
+	{
+		 Log.d(TAG, "error at dbutil");
+	    //DBUtil.safeCloseDataBase(database);
+	}
+
+	public SQLiteDatabase getReadableDatabase()
+	{
+	    database = SQLiteDatabase.openDatabase(DATABASE_FILE_PATH
+	            + File.separator + DATABASE_NAME, null,
+	            SQLiteDatabase.OPEN_READONLY);
+	    return database;
+	}
+
+	public SQLiteDatabase getWritableDatabase()
+	{
+	    database = SQLiteDatabase.openDatabase(DATABASE_FILE_PATH
+	            + File.separator + DATABASE_NAME, null,
+	            SQLiteDatabase.OPEN_READWRITE);
+	    return database;
+	}
+} 
+
+ 

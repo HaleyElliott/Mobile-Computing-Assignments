@@ -23,18 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView1"
-        android:layout_alignLeft="@+id/button1"
+        android:layout_alignLeft="@+id/goButton"
         android:ems="10"
         android:inputType="text" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="91dp"
-        android:text="Go!" />
 
     <TextView
         android:id="@+id/textView2"
@@ -58,20 +49,30 @@
         <requestFocus />
     </EditText>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_centerVertical="true"
-        android:text="Sex: " />
-
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/button1"
+        android:layout_alignLeft="@+id/ageText"
         android:ems="10" />
+
+    <Button
+        android:id="@+id/goButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="41dp"
+        android:layout_toRightOf="@+id/textView3"
+        android:text="Go!" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_below="@+id/ageText"
+        android:layout_marginTop="30dp"
+        android:text="Sex: " />
 
 </RelativeLayout>
