@@ -8,13 +8,19 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+	 private DatabaseHelper database;
+	// private static String[] FROM={_ID, NAME, SURNAME,PHONE};
+	 private static String ORDER_BY=" DESC";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d("test", "YourOutput");
-        DatabaseCreation dBase = new DatabaseCreation();
+       // DatabaseCreation dBase = new DatabaseCreation();
+        
+        database= new DatabaseHelper(this, "tester"); 
+        
     }
 
 

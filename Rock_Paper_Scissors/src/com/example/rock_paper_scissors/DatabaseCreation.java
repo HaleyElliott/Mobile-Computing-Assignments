@@ -1,78 +1,63 @@
 package com.example.rock_paper_scissors;
 
-import java.io.File; 
 
+import java.io.File;
+
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase; 
-import android.database.sqlite.SQLiteException;
 import android.os.Environment;
-import android.util.Log; 
+import android.util.Log;
  
-public class DatabaseCreation  
+public class DatabaseCreation extends ContextWrapper
 { 
-	 private static final String TAG                  = "DatabaseHelper";
 
-	  public static final String  DATABASE_FILE_PATH      = Environment.getExternalStorageDirectory().toString();
-	  public static final String  DATABASE_NAME      = "mydb"; 
-	  public static final String  TRACKS_TABLE        = "tracks";
-	  public static final String  TRACK_INFO_TABLE        = "track_info";
 
-	  private static final String TRACKS_TABLE_CREATE     = "create table "
-	           + TRACKS_TABLE
-	           + " (_id integer primary key autoincrement, title text not null, description text null, created_at date not null);";
+private static final String DEBUG_CONTEXT = "DatabaseContext";
 
-	  private static final String TRACK_INFO_TABLE_CREATE = "create table " 
-	           + TRACK_INFO_TABLE 
-	           + " (_id integer primary key autoincrement, track_id integer not null, latitude real not null, longitude real not null, altitude real not null, created_at date not null);";
+public DatabaseCreation(Context base) {
+    super(base);
+}
 
-	private SQLiteDatabase      database;
+@Override
+public File getDatabasePath(String name) 
+{
+    File sdcard = Environment.getExternalStorageDirectory();    
+    String dbfile = sdcard.getAbsolutePath() + File.separator+ "databases" + File.separator + name;
+    if (!dbfile.endsWith(".db"))
+    {
+        dbfile += ".db" ;
+    }
 
-	public DatabaseCreation() 
-	{  
-		Log.d("test", "YourOutput2");
-	    try
-	    {
-	        database = SQLiteDatabase.openDatabase(DATABASE_FILE_PATH
-	            + File.separator + DATABASE_NAME, null,SQLiteDatabase.OPEN_READWRITE);
-	    }
-	    catch (SQLiteException ex)
-	    {
-	        Log.e("test", "error -- " + ex.getMessage(), ex);
-	        // error means tables does not exits
-	        createTables();
-	    }
-	    finally
-	    {
-	        Log.d("test", "error at dbutil");
-	    }
-	}
+    File result = new File(dbfile);
 
-	private void createTables()
-	{
-	    database.execSQL(TRACKS_TABLE_CREATE);
-	    database.execSQL(TRACK_INFO_TABLE_CREATE);
-	}
+    if (!result.getParentFile().exists())
+    {
+        result.getParentFile().mkdirs();
+    }
 
-	public void close()
-	{
-		 Log.d(TAG, "error at dbutil");
-	    //DBUtil.safeCloseDataBase(database);
-	}
+    if (Log.isLoggable(DEBUG_CONTEXT, Log.WARN))
+    {
+        Log.w(DEBUG_CONTEXT,
+                "getDatabasePath(" + name + ") = " + result.getAbsolutePath());
+    }
 
-	public SQLiteDatabase getReadableDatabase()
-	{
-	    database = SQLiteDatabase.openDatabase(DATABASE_FILE_PATH
-	            + File.separator + DATABASE_NAME, null,
-	            SQLiteDatabase.OPEN_READONLY);
-	    return database;
-	}
+    return result;
+}
 
-	public SQLiteDatabase getWritableDatabase()
-	{
-	    database = SQLiteDatabase.openDatabase(DATABASE_FILE_PATH
-	            + File.separator + DATABASE_NAME, null,
-	            SQLiteDatabase.OPEN_READWRITE);
-	    return database;
-	}
-} 
+@Override
+public SQLiteDatabase openOrCreateDatabase(String name, int mode, SQLiteDatabase.CursorFactory factory) 
+{
+    SQLiteDatabase result = SQLiteDatabase.openOrCreateDatabase(getDatabasePath(name), null);
+    // SQLiteDatabase result = super.openOrCreateDatabase(name, mode, factory);
+    if (Log.isLoggable(DEBUG_CONTEXT, Log.WARN))
+    {
+        Log.w("test2",
+                "openOrCreateDatabase(" + name + ",,) = " + result.getPath());
+    }
+    return result;
+}
+}
+
 
  
