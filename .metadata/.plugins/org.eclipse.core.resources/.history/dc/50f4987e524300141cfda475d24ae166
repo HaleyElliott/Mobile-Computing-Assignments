@@ -1,0 +1,6 @@
+package com.example.rock_paper_scissors;
+
+public abstract class DatabaseHelper {
+
+	
+}

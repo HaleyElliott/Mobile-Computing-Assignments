@@ -1,30 +1,48 @@
 package com.example.rock_paper_scissors;
 
 import android.support.v7.app.ActionBarActivity;
+import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
-	 private DatabaseHelper database;
-	// private static String[] FROM={_ID, NAME, SURNAME,PHONE};
-	 private static String ORDER_BY=" DESC";
+	 SQLiteDatabase db;
 	
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("test", "YourOutput");
-       // DatabaseCreation dBase = new DatabaseCreation();
         
-        database= new DatabaseHelper(this, "tester"); 
+        //database creation
+        Toast.makeText(this, Environment.getExternalStorageState(), Toast.LENGTH_LONG).show();
+        db = SQLiteDatabase.openOrCreateDatabase(Environment.getExternalStorageDirectory()+"/Users.db", null);
+        DatabaseHelper help = new DatabaseHelper(db);
+        help.createTable(db);
+        help.AddPlayer("haley", "22", "f");
+        //Button btn = (Button) findViewById(R.id.goButton);
+        //btn.callOnClick();
+     
         
     }
 
+    
 
-    @Override
+    private void addPlayer() {
+		Log.e("dick", "pooper");
+	}
+
+
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);

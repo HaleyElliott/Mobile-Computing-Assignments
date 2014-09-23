@@ -1,0 +1,21 @@
+package com.example.rock_paper_scissors;
+
+import android.database.sqlite.SQLiteDatabase;
+
+public abstract class DatabaseHelper  {
+
+
+	DatabaseHelper(SQLiteDatabase db) 
+    {
+		
+    }
+
+	
+	public void yoyo(){
+		
+	}
+	
+
+
+	
+}

@@ -1,0 +1,45 @@
+package com.example.rock_paper_scissors;
+
+import android.database.sqlite.SQLiteDatabase;
+
+public class DatabaseHelper {
+	
+	
+	private SQLiteDatabase database;
+
+	public DatabaseHelper(SQLiteDatabase db) {
+		database = db;
+	}
+	
+	public void createTable(){
+		database.beginTransaction();
+		try{
+		database.execSQL("create table users (" 
+				+ "username text PRIMARY KEY, " 
+				+ "wins integer, "
+				+ "losses integer, "
+				+ "sex text, "
+				+ "age text ); " );
+		}
+		finally{
+			database.endTransaction();
+		}
+	}
+	
+	public void AddPlayer(String username, String age, String sex){
+		database.beginTransaction();
+		try{
+			database.execSQL( "insert into users(username, wins, losses, sex, age) values ('"+username+"' , 0 , 0 ,'"+sex+"',  '"+age+"');" );
+
+		}
+		finally{
+			database.endTransaction();
+		}
+	
+		
+	}
+	public void incWin(int ID){
+		
+	}
+	
+}

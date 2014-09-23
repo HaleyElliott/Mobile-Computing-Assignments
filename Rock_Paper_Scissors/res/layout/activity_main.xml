@@ -64,7 +64,8 @@
         android:layout_below="@+id/textView3"
         android:layout_marginTop="41dp"
         android:layout_toRightOf="@+id/textView3"
-        android:text="Go!" />
+        android:text="Go!" 
+    	android:onClick="myFancyMethod" />
 
     <TextView
         android:id="@+id/textView3"

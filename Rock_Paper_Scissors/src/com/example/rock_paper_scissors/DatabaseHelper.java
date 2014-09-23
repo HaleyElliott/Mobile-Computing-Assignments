@@ -1,27 +1,72 @@
 package com.example.rock_paper_scissors;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper {
+	
+	
+	private SQLiteDatabase database;
 
-	private static final int DATABASE_VERSION = 3;
+	public DatabaseHelper(SQLiteDatabase db) {
+		database = db;
+	}
+	
+	public void createTable(SQLiteDatabase db){
+		
+		   db.beginTransaction();
+			try {
+			//perform your database operations here ...
+				
+				db.execSQL("create table users (" 
+						+ "username text PRIMARY KEY, " 
+						+ "wins integer, "
+						+ "losses integer, "
+						+ "sex text, "
+						+ "age text ); " );
+				
 
-	DatabaseHelper(final Context context, String databaseName) 
-    {
-       super(new DatabaseCreation(context), databaseName, null, DATABASE_VERSION);
-    }
+				db.setTransactionSuccessful(); //commit your changes
+			}
+			catch (SQLiteException e) {
+			//report problem 
+				Log.e("dick", "pooper" + e);
+			}
+			finally {
+				
+				db.endTransaction();
+				
+			}
+	}
+	
+	public void AddPlayer(String username, String age, String sex){
+		   database.beginTransaction();
+			try {
+			//perform your database operations here ...
+				
+				database.execSQL( "insert into users(username, wins, losses, sex, age) values ('"+username+"' , 0 , 0 ,'"+sex+"',  '"+age+"');" );
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
+				
+
+				database.setTransactionSuccessful(); //commit your changes
+			}
+			catch (SQLiteException e) {
+			//report problem 
+				Log.e("dick", "pooper" + e);
+			}
+			finally {
+				
+				database.endTransaction();
+				
+			}
+		
+		
+	
 		
 	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
+	public void incWin(int ID){
 		
 	}
+	
 }

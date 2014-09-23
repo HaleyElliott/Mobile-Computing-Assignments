@@ -1,0 +1,16 @@
+package com.example.rock_paper_scissors;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper  {
+
+	private static final int DATABASE_VERSION = 3;
+
+	DatabaseHelper(final Context context, String databaseName) 
+    {
+    }
+
+
+}

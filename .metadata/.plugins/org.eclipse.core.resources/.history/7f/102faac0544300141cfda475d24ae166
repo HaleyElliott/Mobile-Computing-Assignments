@@ -1,0 +1,24 @@
+package com.example.rock_paper_scissors;
+
+import android.database.sqlite.SQLiteDatabase;
+
+public class DatabaseHelper {
+	
+	
+	private SQLiteDatabase database;
+
+	public DatabaseHelper(SQLiteDatabase db) {
+		database = db;
+	}
+	
+	public void createTable(){
+		database.execSQL("create table tblPat (" 
+				+ " recID integer PRIMARY KEY autoincrement, " 
+				+ " name text, "
+				+ " age text ); " );
+	}
+	
+	public void AddPlayer(String name, String age, String sex){
+		database.execSQL();
+	}
+}
