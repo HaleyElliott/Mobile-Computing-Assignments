@@ -1,0 +1,72 @@
+package com.example.rock_paper_scissors;
+
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
+
+public class DatabaseHelper {
+	
+	
+	private SQLiteDatabase database;
+
+	public DatabaseHelper(SQLiteDatabase db) {
+		database = db;
+	}
+	
+	public void createTable(SQLiteDatabase db){
+		
+		   db.beginTransaction();
+			try {
+			//perform your database operations here ...
+				
+				db.execSQL("create table users (" 
+						+ "username text PRIMARY KEY, " 
+						+ "wins integer, "
+						+ "losses integer, "
+						+ "sex text, "
+						+ "age text ); " );
+				
+
+				db.setTransactionSuccessful(); //commit your changes
+			}
+			catch (SQLiteException e) {
+			//report problem 
+				Log.e("dick", "pooper" + e);
+			}
+			finally {
+				
+				db.endTransaction();
+				
+			}
+	}
+	
+	public void AddPlayer(String username, String age, String sex){
+		   database.beginTransaction();
+			try {
+			//perform your database operations here ...
+				
+				database.execSQL( "insert into users(username, wins, losses, sex, age) values ('"+username+"' , 0 , 0 ,'"+sex+"',  '"+age+"');" );
+
+				
+
+				database.setTransactionSuccessful(); //commit your changes
+			}
+			catch (SQLiteException e) {
+			//report problem 
+				Log.e("dick", "pooper" + e);
+			}
+			finally {
+				
+				database.endTransaction();
+				
+			}
+		
+		
+	
+		
+	}
+	public void incWin(int ID){
+		
+	}
+	
+}

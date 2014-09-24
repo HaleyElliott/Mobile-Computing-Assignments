@@ -1,0 +1,107 @@
+package com.example.rock_paper_scissors;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
+
+public class DatabaseHelper {
+	
+	
+	private SQLiteDatabase database;
+
+	public DatabaseHelper(SQLiteDatabase db) {
+		database = db;
+	}
+	
+	public Boolean createTable(SQLiteDatabase db){
+		
+		   db.beginTransaction();
+			try {
+			//perform your database operations here ...
+				
+				db.execSQL("create table users (" 
+						+ "username text PRIMARY KEY, " 
+						+ "wins integer, "
+						+ "losses integer, "
+						+ "sex text, "
+						+ "age text ); " );
+				
+
+				db.setTransactionSuccessful(); //commit your changes
+			}
+			catch (SQLiteException e) {
+			//report problem 
+				Log.e("eee", "Error ---" + e);
+				return false;
+			}
+			finally {
+				
+				db.endTransaction();
+			}
+			return true;
+	}
+	
+	public Boolean AddPlayer(String username, String age, String sex){
+		   database.beginTransaction();
+			try {
+			//perform your database operations here ...
+				
+				database.execSQL( "insert into users(username, wins, losses, sex, age) values ('"+username+"' , 0 , 0 ,'"+sex+"',  '"+age+"');" );
+
+				
+
+				database.setTransactionSuccessful(); //commit your changes
+			}
+			catch (SQLiteException e) {
+			//report problem 
+				Log.e("eee", "Error ---" + e);
+				return false;
+			}
+			finally {
+				
+				database.endTransaction();
+				
+			}
+		
+		return true;
+	
+		
+	}
+	public Boolean incWin(String UserName){
+		   database.beginTransaction();
+					try {
+					//perform your database operations here ...
+						
+						 Cursor c = database.rawQuery("SELECT wins FROM users WHERE username =  '"+UserName.trim()+"'", null);
+						 c.moveToNext();
+						 Integer winNum = c.getInt(c.getColumnIndex("wins"));
+						 Log.e("eee2", "Error ---" + (winNum));
+						 winNum++;
+
+						 database.rawQuery("UPDATE users SET wins = '" + winNum+ "' WHERE username = '" + UserName.trim() + "'", null);
+						 database.setTransactionSuccessful();
+						 
+						 database.beginTransaction();
+						 Cursor c2 = database.rawQuery("SELECT wins FROM users WHERE username =  '"+UserName.trim()+"'", null);
+						 c2.moveToNext();
+						 Integer winNum2 = c2.getInt(c2.getColumnIndex("wins"));
+						 Log.e("eee22", "Error ---" + (winNum2));
+						 
+						database.setTransactionSuccessful(); //commit your changes
+					}
+					catch (SQLiteException e) {
+					//report problem 
+						Log.e("eee32", "Error ---" + e);
+						return false;
+					}
+					finally {
+						
+						database.endTransaction();
+						
+					}
+					return true;
+					
+	}
+	
+}

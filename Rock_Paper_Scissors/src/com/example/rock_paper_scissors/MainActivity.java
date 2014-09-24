@@ -2,16 +2,23 @@ package com.example.rock_paper_scissors;
 
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
-
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class MainActivity extends ActionBarActivity {
 	 SQLiteDatabase db;
@@ -25,10 +32,43 @@ public class MainActivity extends ActionBarActivity {
         //database creation
         Toast.makeText(this, Environment.getExternalStorageState(), Toast.LENGTH_LONG).show();
         db = SQLiteDatabase.openOrCreateDatabase(Environment.getExternalStorageDirectory()+"/Users.db", null);
-        DatabaseHelper help = new DatabaseHelper(db);
+        final DatabaseHelper help = new DatabaseHelper(db);
         help.createTable(db);
-        help.AddPlayer("haley", "22", "f");
-        //Button btn = (Button) findViewById(R.id.goButton);
+        
+        
+        Button b1 = (Button) findViewById(R.id.goButton);
+        OnClickListener list1 = new OnClickListener() {
+            @SuppressWarnings("deprecation")
+			@Override
+            public void onClick(View v) {
+            	EditText username = (EditText)findViewById(R.id.userText);
+            	String Username = username.getText().toString();
+            	
+            	EditText age = (EditText)findViewById(R.id.ageText);
+            	String Age = age.getText().toString();
+            	
+            	EditText sex = (EditText)findViewById(R.id.genderText);
+            	String Sex = sex.getText().toString();
+            	
+            	
+            	Boolean check = help.AddPlayer(Username, Age, Sex);
+            	 
+            	if(check == false){
+       
+            	}
+            	else{
+            		//move to to playing page here
+            	}
+            	
+            	
+            	
+            	
+            }
+        };
+
+        b1.setOnClickListener(list1);
+        
+        
         //btn.callOnClick();
      
         
@@ -37,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
     
 
     private void addPlayer() {
-		Log.e("dick", "pooper");
+		Log.d("dick2", "pooper");
 	}
 
 
